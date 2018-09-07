@@ -8,6 +8,9 @@ import { Link } from '../../sdk/components/Link/Link';
 import { Title } from '../../sdk/components/Title/Title';
 import { RootStore } from '../../store/root';
 import { SandboxModel } from './store/sandbox-model';
+const BpmnViewer = require('bpmn-js');
+
+
 
 export interface IBPMNProps {
   /**
@@ -46,10 +49,17 @@ export default class Sandbox extends React.Component<IBPMNProps> {
         <Title title="Sandbox" subTitle="BPMN" />
         <p>Loaded Diagrams: {this.models.length}</p>
 
+
         {this.renderPlaceholder()}
+        {this.renderXml()}
+          <div id='canvas' className="xmlViwer"></div>
+
+
 
         {/* ... Insert components here */}
+
       </div>
+
     );
   }
 
@@ -59,6 +69,7 @@ export default class Sandbox extends React.Component<IBPMNProps> {
    * Note this may be removed, and is only here for display purposes.
    */
   private renderPlaceholder = () => (
+
     <>
       {this.models
         .filter(i => !!i.id)
@@ -70,6 +81,25 @@ export default class Sandbox extends React.Component<IBPMNProps> {
         <>
           <h2>{this.active.title}</h2>
           <textarea name="xml" value={this.active.xml} />
+
+
+        </>
+      )}
+    </>
+  );
+
+  private renderXml = () => (
+
+
+    <>
+
+
+      {this.active && (
+        <>
+          <h2>{this.active.title} Diagram</h2>
+
+
+
         </>
       )}
     </>
@@ -79,13 +109,34 @@ export default class Sandbox extends React.Component<IBPMNProps> {
    * On sandbox title click fetch the individual item from the store
    * as active
    */
+  private appendXMLDiagram=(xml:string)=>{
+    var viewer=new BpmnViewer({
+      container:'#canvas'
+    });
+    viewer.importXML(xml, function() {
+    });
+  }
+
+  private clearDiagram=()=>{
+    var canvas=document.getElementById('canvas');
+    if(canvas!=null){
+      canvas.innerHTML="";
+    }else {return}
+  }
+
   private handleOnModelClick = (evt: React.MouseEvent<HTMLAnchorElement>) => {
+    this.clearDiagram();
+    var xml=this.props.root!.features.sandbox.getItem(evt.currentTarget.getAttribute('data-id')).xml;
+    this.appendXMLDiagram(xml)
     if (!evt.currentTarget.getAttribute('data-id')) {
       return;
     }
+
 
     const id = evt.currentTarget.getAttribute('data-id');
 
     this.active = this.props.root!.features.sandbox.getItem(id);
   };
 }
+
+
