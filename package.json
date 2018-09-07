@@ -1,0 +1,30 @@
+{
+  "name": "project-explorer",
+  "version": "0.1.1",
+  "private": true,
+  "dependencies": {
+    "@types/prop-types": "^15.5.2",
+    "bpmn-js": "^0.28.1",
+    "mobx": "^4.1.0",
+    "mobx-react": "^5.0.0",
+    "node-uuid": "^1.4.8",
+    "office-ui-fabric-react": "^5.68.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-scripts-ts": "2.14.0"
+  },
+  "scripts": {
+    "start": "react-scripts-ts start",
+    "build": "react-scripts-ts build",
+    "test": "react-scripts-ts test --env=jsdom",
+    "eject": "react-scripts-ts eject"
+  },
+  "devDependencies": {
+    "@types/jest": "^22.2.2",
+    "@types/node": "^9.6.0",
+    "@types/node-uuid": "0.0.28",
+    "@types/react": "^16.0.40",
+    "@types/react-dom": "^16.0.4",
+    "typescript": "^2.7.2"
+  }
+}
